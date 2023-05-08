@@ -1,5 +1,5 @@
 Column Name,Values,Description
-row_count,,
+row_count,Integer,Unique number assigned to each row
 paper_no,Integer from 1000 onwards,Unique number assigned to each manuscript or unpublished dataset 
 first_author_surname,Variable,The surname of the first author on the manuscript data was extracted from
 pub_year,Variable,Year the manuscript data was extracted from was published
