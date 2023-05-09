@@ -1,11 +1,5 @@
 This is the information file (README) for the data and code used in the paper "A meta-analysis of the effects of moisture during development on oviparous reptile phenotype" that is provided in this OSF repository. This paper was published in TBD (DOI). The following explains each file organized into a series of folders:
 
-
-0_README.txt
--------------------
-The same file as this one but in .txt format that is downloaded with the zipped repository file.
-
-
 1_Overall Database
 -------------------
 This folder contains the file named ***database.xlsx***, which is a XLS spreadsheet containing all the original, unpaired data that was extracted from 34 papers included in the meta-analysis. This XLS spreadsheet contains two worksheets. The first contains the raw, extracted data and is called 'database'. The second sheet is named 'metadata' and holds an explanation for all the columns and variables in the database.
