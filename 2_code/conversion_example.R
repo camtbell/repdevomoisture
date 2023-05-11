@@ -10,7 +10,9 @@
 
 ## Slope from the model
   b_temp = 0.030
- (exp(b_temp)-1)*100 # For every 1C increase in temperature the high moisture treatment would increase by 3% relative to the low moisture treatment
+ (exp(b_temp)-1)*100 # When we have a moisture difference of 150kPA a 1C increase in temperature increases the trait in high moisture treatment by 3% relative to the low moisture treatment.
+
+ # A 1C increase in temperature increases the trait in the 1500kpA treatment by 3% relative to the 1(500-150)kPA moisture treatment.
 
 
 # Log odds is fairly straight forward too. Check out here: https://www.metafor-project.org/doku.php/tips:assembling_data_or
