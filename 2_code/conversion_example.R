@@ -14,6 +14,9 @@
 
  # A 1C increase in temperature increases the trait in the 1500kpA treatment by 3% relative to the 1(500-150)kPA moisture treatment.
 
+ # 
+ data %>% group_by(Order) %>% summarise(mean = mean(T_scaled), sd = sd(T_scaled), n = n())
+
 
 # Log odds is fairly straight forward too. Check out here: https://www.metafor-project.org/doku.php/tips:assembling_data_or
 
