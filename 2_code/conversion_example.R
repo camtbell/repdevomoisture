@@ -8,6 +8,10 @@
 	x1_r <- (exp(x1)-1)*100 # Numerator is 100% larger than demoninator. Or, high moisture increases trait by 100%
 	x2_r <- (exp(x2)-1)*100 # Numerator is 50% of the demoninator. Or, high moisture decreases trait by 50%, 
 
+## Slope from the model
+  b_temp = 0.030
+ (exp(b_temp)-1)*100 # For every 1C increase in temperature the high moisture treatment would increase by 3% relative to the low moisture treatment
+
 
 # Log odds is fairly straight forward too. Check out here: https://www.metafor-project.org/doku.php/tips:assembling_data_or
 
