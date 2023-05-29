@@ -123,6 +123,9 @@ metamean <- rma.mv(yi ~ 1,V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row
 metameanb <- robust(metamean, cluster = Sur_dataOR$paper_no)
 summary(metameanb)
 
+#Conversion Trial Block
+predict(metamean, transf = exp, digits = 2)
+
 ## MEAN MLMA 
 M <- coef(metamean)
 M

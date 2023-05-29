@@ -1,4 +1,4 @@
-
+#(For hatching success and sex ratio (sig effect from moist diff and temp vars.))
 ## Script to show the conversions. Let say we also put high moistute on top and low moisture on bottom
 	x1 <- log(10/5)  # logRR of 0.69
 	x2 <- log(5/10)  # logRR of -0.69, obviously exact opposite of x1
