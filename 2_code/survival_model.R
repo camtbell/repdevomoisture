@@ -123,8 +123,14 @@ metamean <- rma.mv(yi ~ 1,V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row
 metameanb <- robust(metamean, cluster = Sur_dataOR$paper_no)
 summary(metameanb)
 
-#Conversion Trial Block
+#Conversion Trial Block WIP
 predict(metamean, transf = exp, digits = 2)
+x1 = 0.97 #so the odds of higher survival are 97% higher in wet treatments than dry?
+x2 = -0.97
+x1_r <- (exp(x1)-1)*100 # Numerator is 163.8% larger than demoninator. Or, high moisture increases trait by 163.8%
+x2_r <- (exp(x2)-1)*100 # Numerator is 62.1% of the demoninator. Or, high moisture decreases trait by 62.1%
+#next step gets a slope value from a model to complete the % task...
+#I believe this either comes from the 'predict' results, or the 'metamean' results!
 
 ## MEAN MLMA 
 M <- coef(metamean)
