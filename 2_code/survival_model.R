@@ -123,7 +123,9 @@ metamean <- rma.mv(yi ~ 1,V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row
 metameanb <- robust(metamean, cluster = Sur_dataOR$paper_no)
 summary(metameanb)
 
-#Conversion Trial Block WIP
+#Conversion Trial Block WIP--------------------------------------------------------------------------------------------------------------------------
+#Should I be using 'final.model' instead of 'metamean' as it uses the null model, ie water and temp scaled values
+###Final.model doesnt work, this is the right one!
 predict(metamean, transf = exp, digits = 2)
 x1 = 0.97 #so the odds of higher survival are 97% higher in wet treatments than dry?
 x2 = -0.97
@@ -131,6 +133,14 @@ x1_r <- (exp(x1)-1)*100 # Numerator is 163.8% larger than demoninator. Or, high 
 x2_r <- (exp(x2)-1)*100 # Numerator is 62.1% of the demoninator. Or, high moisture decreases trait by 62.1%
 #next step gets a slope value from a model to complete the % task...
 #I believe this either comes from the 'predict' results, or the 'metamean' results!
+#comes from the metamean results, estimate is -0.0343, which seems to be the slope... going off that for now
+b_temp = 0.0343
+(exp(b_temp)-1)*100 #result = 3.489503
+3.489503
+#So when we have a mean centred moisture concentration of 320 kPa a 1kPa(?) increases hatching success (survival) in the high moisture treatment...
+#... by 3.49% relative to the low moisture treatment!
+#so... the estimate for waterpotdiff_scaled is 0.0009 from final.modelb, which would mean a 1 kPa increase increases survival by 0.09%, makes a bit of sense
+###-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## MEAN MLMA 
 M <- coef(metamean)

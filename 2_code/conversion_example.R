@@ -5,8 +5,8 @@
 	x3 <- log(10/10) # logRR of 0
 
 ## Now, from the above, we know what the % difference between the numerator and denominator are, so we can calculate this
-	x1_r <- (exp(x1)-1)*100 # Numerator is 100% larger than demoninator. Or, high moisture increases trait by 100%
-	x2_r <- (exp(x2)-1)*100 # Numerator is 50% of the demoninator. Or, high moisture decreases trait by 50%, 
+	x1_r <- (exp(x1)-1)*100 # Numerator is 100% larger than denominator. Or, high moisture increases trait by 100%
+	x2_r <- (exp(x2)-1)*100 # Numerator is 50% of the denominator. Or, high moisture decreases trait by 50%, 
 
 ## Slope from the model
   b_temp = 0.030
