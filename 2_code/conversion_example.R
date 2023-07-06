@@ -8,11 +8,27 @@
 	x1_r <- (exp(x1)-1)*100 # Numerator is 100% larger than denominator. Or, high moisture increases trait by 100%
 	x2_r <- (exp(x2)-1)*100 # Numerator is 50% of the denominator. Or, high moisture decreases trait by 50%, 
 
-## Slope from the model
-  b_temp = 0.030
- (exp(b_temp)-1)*100 # When we have a moisture difference of 150kPA a 1C increase in temperature increases the trait in high moisture treatment by 3% relative to the low moisture treatment.
+	
+### THIS IS JLR
+# MLMA for both non-sig and sig effects
+#MLMA FOR lnOR use link below
+		
+#MLMA FOR LENGTH (lnRR)
+	mlma_length = 0.015
+	(exp(mlma_length)-1)*100
+	#Numerator is 1.5% larger than the denominator. Or, the high moisture treatment increase reptile length by 1.5%.
+	
+### INTERPRETING META_REGRESSION COEFFICIENTS
+# only sig coefficients
+## Slope from the model for survival (is this okay if lnOR?)
+  b_temp = 0.038
+ (exp(b_temp)-1)*100 # When we have a moisture difference of 150kPA, a 1C increase in temperature increases the trait in high moisture treatment by 3.8% relative to the low moisture treatment.
 
+  
+  
+  
  # A 1C increase in temperature increases the trait in the 1500kpA treatment by 3% relative to the 1(500-150)kPA moisture treatment.
+
 
  # 
  data %>% group_by(Order) %>% summarise(mean = mean(T_scaled), sd = sd(T_scaled), n = n())
