@@ -51,9 +51,9 @@
   0.1001 #A 1kPa increase in moisture difference between treatments increases the trait in high moisture treatment by 0.1% relative to low moisture
 
  #Slope from the model for sex ratio (moisture difference*temperature) 
-  b_moisttemp = -0.001
+  b_moisttemp = 0.001
   (exp(b_moisttemp)-1)*100
-  -0.0999 #A 1 kPa increase in moisture difference, and 1C increase in temp DECREASES the trait in high moisture by 0.1% relative to low moisture
+  0.1001 #A 1 kPa increase in moisture difference, and 1C increase in temp DECREASES the trait in high moisture by 0.1% relative to low moisture
 ###----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   
     
