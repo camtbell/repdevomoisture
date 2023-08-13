@@ -41,9 +41,9 @@
 ### INTERPRETING META_REGRESSION COEFFICIENTS---------------------------------------------------------------------------------------------------------------
 # only sig coefficients
 ## Slope from the model for survival (is this okay if lnOR?)
-  b_temp = 0.038
+  b_temp = -0.038
   (exp(b_temp)-1)*100 
-  3.8731 # When we have a moisture difference of 150kPA (isnt it 320kPa?), a 1C increase in temperature increases the trait in high moisture treatment by 3.8% relative to the low moisture treatment.
+  -3.7287 # When we have a moisture difference of 150kPA (isnt it 320kPa?), a 1C increase in temperature increases the trait in high moisture treatment by 3.8% relative to the low moisture treatment.
 
 #Slope from the model for survival (moisture difference)
   b_moist = 0.001
@@ -51,9 +51,9 @@
   0.1001 #A 1kPa increase in moisture difference between treatments increases the trait in high moisture treatment by 0.1% relative to low moisture
 
  #Slope from the model for sex ratio (moisture difference*temperature) 
-  b_moisttemp = 0.001
+  b_moisttemp = -0.001
   (exp(b_moisttemp)-1)*100
-  0.1001 #A 1 kPa increase in moisture difference, and 1C increase in temp DECREASES the trait in high moisture by 0.1% relative to low moisture
+  -0.1 #A 1 kPa increase in moisture difference, and 1C increase in temp DECREASES the trait in high moisture by 0.1% relative to low moisture
 ###----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   
     
