@@ -1,3 +1,12 @@
+# Create a dataframe used for predcitions. Note that these MUST be names exactly the same as the data and be in the sam units as the data used to fit the model. So if you centred then they must be centered also. 
+newdata <- data.frame(temp_diff = rep(seq(15, 36, by = 1), each = 12), moist_diff = seq(100, 320, by = 20))
+
+# Then make predcitions
+preds <- predict(metamean, newdata = newdata, transf = exp, digits = 2)
+
+# Then you use this griant dataframe with x, y and z values to make a contour plot
+
+
 # Figure 6 - Model predictions - traits - raw
 #------------------------------------------------------------------
 png(height = 8.511013, width = 15.674009, res = 600, units = "in", file = "./figure/fig.6_R2.png")
