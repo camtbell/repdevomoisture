@@ -6,6 +6,12 @@ preds <- predict(metamean, newdata = newdata, transf = exp, digits = 2)
 
 # Then you use this griant dataframe with x, y and z values to make a contour plot
 
+#Cam's Attempt. ############################################################################################
+newdata <- data.frame(temp_diff = rep(seq(15, 36, by = 1), each = 12), moist_diff = seq(100, 320, by = 20))
+#Mean Centring, taken from survival_model.R
+Sur_dataOR$T_scaled <- (Sur_dataOR$T - 25) 
+Sur_dataOR$waterpotdiff_scaled <- (Sur_dataOR$waterpot_diff - 320)
+############################################################################################################
 
 # Figure 6 - Model predictions - traits - raw
 #------------------------------------------------------------------
