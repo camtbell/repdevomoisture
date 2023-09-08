@@ -1,9 +1,18 @@
+# Clear R workspace
+rm(list=ls())
 library(ggplot)
 library(gmcontour)
 library(mcgv)
+pacman::p_load(metaAidR, metafor, cowplot, hrbrthemes, corrplot, ggpubr, ggplot2, MCMCglmm, ape, phytools, stats, rotl, readr, MuMIn, clubSandwich, dplyr, viridis, patchwork, orchaRd)
 
+Sex_dataOR <- read_csv("3_trait data/sex_data.csv")
+
+Sex_dataOR <- escalc(measure="OR", ai=male.2, bi=female.2, ci =male, di=female , data=Sex_dataOR)
+
+Sex_dataOR$T_scaled <- (Sex_dataOR$T - 25) 
+Sex_dataOR$waterpotdiff_scaled <- (Sex_dataOR$waterpot_diff - 320)
 # Create a dataframe used for predcitions. Note that these MUST be names exactly the same as the data and be in the sam units as the data used to fit the model. So if you centred then they must be centered also. 
-newdata <- data.frame(temp_diff = rep(seq(15, 36, by = 1), each = 12), moist_diff = seq(100, 320, by = 20))
+newdata <- data.frame(Sex_dataOR$T_scaled = rep(seq(15, 36, by = 1), each = 12), Sex_dataOR$waterpotdiff_scaled = seq(100, 320, by = 20))
 
 # Then make predcitions
 preds <- predict(metamean, newdata = newdata, transf = exp, digits = 2)
@@ -12,13 +21,8 @@ preds <- predict(metamean, newdata = newdata, transf = exp, digits = 2)
 
 ###############################Cam's Attempt.###############################################################
 #Will be based off sex ratio; moderators being Temperature vs. kPa sig interaction.
-#Therefore:
-Sex_dataOR <- read_csv("3_trait data/sex_data.csv")
-
 newdata <- data.frame(temp_diff = rep(seq(15, 36, by = 1), each = 12), moist_diff = seq(100, 320, by = 20))
 #Mean Centring, taken from survival_model.R
-Sur_dataOR$T_scaled <- (Sur_dataOR$T - 25) 
-Sur_dataOR$waterpotdiff_scaled <- (Sur_dataOR$waterpot_diff - 320)
 ############################################################################################################
 
 # Figure 6 - Model predictions - traits - raw
