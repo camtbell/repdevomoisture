@@ -140,8 +140,8 @@ print(predictionsMLMR)
 ID_dataRR$wi <-  1/(ID_dataRR$vi) 
 
 # z-transform publication year
-ID_dataRR$pub_year_z <- scale(ID_dataRR$pub_year) 
+ID_dataRR$pub_year <- scale(ID_dataRR$pub_year) 
 
 # Model for publication bias includes all moderators and random effects, as well as year to account for time lag and precision (wi)
-pub.model_z <-rma.mv(yi ~ waterpotdiff_scaled + T_scaled + waterpotdiff_scaled:T_scaled + pub_year + vi + wi, V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row_count), R = list(animal=R_phylo), mod = , data = ID_dataRR, method = 'ML')
+pub.model_z <-rma.mv(yi ~ waterpotdiff_scaled + T_scaled + waterpotdiff_scaled:T_scaled + pub_year + vi, V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row_count), R = list(animal=R_phylo), mod = , data = ID_dataRR, method = 'ML')
 summary(pub.model_z)

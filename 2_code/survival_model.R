@@ -123,12 +123,9 @@ metamean <- rma.mv(yi ~ 1,V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row
 metameanb <- robust(metamean, cluster = Sur_dataOR$paper_no)
 summary(metameanb)
 
-#Conversion Trial Block WIP--------------------------------------------------------------------------------------------------------------------------
-#Should I be using 'final.model' instead of 'metamean' as it uses the null model, ie water and temp scaled values
-###Final.model doesnt work, this is the right one!
+#Conversion For % Change Values
 predict(metamean, transf = exp, digits = 2)
 0.97
-###-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## MEAN MLMA 
 M <- coef(metamean)
