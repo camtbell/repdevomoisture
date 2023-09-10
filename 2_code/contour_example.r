@@ -17,6 +17,12 @@ newdata <- data.frame(Sex_dataOR$T_scaled = rep(seq(15, 36, by = 1), each = 12),
 # Then make predcitions
 preds <- predict(metamean, newdata = newdata, transf = exp, digits = 2)
 
+pred.datMor <- subset(Sex_dataOR, Trait_Cat == "Sex Ratio")
+s <- interp(x = pred.datMor$T_scaled, y = pred.datMor$waterpotdiff_scaled, z = pred.datMor$pred)
+image.plot(s, xlab = "", ylab = "", las = 1, col = viridis(option = "magma", 50), main = "Morphological traits", cex.main = 2, cex.axis = 1.5, axis.args = list(cex.axis = 1.5))
+contour(s, add = TRUE, labcex = labcex)
+points(y = tincNoInc$T_scaled[tincNoInc$Trait_Cat == "Sex Ratio"], x = tincNoInc$waterpotdiff_scaled[tincNoInc$Trait_Cat == "Sex Ratio"], pch = 16)
+
 # Then you use this griant dataframe with x (temperature), y (kPa diff) and z (maybe effect size?) values to make a contour plot
 
 ###############################Cam's Attempt.###############################################################
