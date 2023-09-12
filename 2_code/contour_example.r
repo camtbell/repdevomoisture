@@ -1,9 +1,6 @@
 # Clear R workspace
 rm(list=ls())
-library(ggplot)
-library(gmcontour)
-library(mcgv)
-pacman::p_load(metaAidR, metafor, cowplot, hrbrthemes, corrplot, ggpubr, ggplot2, MCMCglmm, ape, phytools, stats, rotl, readr, MuMIn, clubSandwich, dplyr, viridis, patchwork, orchaRd)
+pacman::p_load(interp, metaAidR, metafor, cowplot, hrbrthemes, corrplot, ggpubr, ggplot2, MCMCglmm, ape, phytools, stats, rotl, readr, MuMIn, clubSandwich, dplyr, viridis, patchwork, orchaRd)
 
 Sex_dataOR <- read_csv("3_trait data/sex_data.csv")
 
@@ -12,20 +9,19 @@ Sex_dataOR <- escalc(measure="OR", ai=male.2, bi=female.2, ci =male, di=female ,
 Sex_dataOR$T_scaled <- (Sex_dataOR$T - 25) 
 Sex_dataOR$waterpotdiff_scaled <- (Sex_dataOR$waterpot_diff - 320)
 # Create a dataframe used for predcitions. Note that these MUST be names exactly the same as the data and be in the sam units as the data used to fit the model. So if you centred then they must be centered also. 
-newdata <- data.frame(Sex_dataOR$T_scaled = rep(seq(15, 36, by = 1), each = 12), Sex_dataOR$waterpotdiff_scaled = seq(100, 320, by = 20))
+newdata <- data.frame(T_scaled = rep(seq(15, 36, by = 1), each = 12), waterpotdiff_scaled = seq(100, 320, by = 20))
 
 # Then make predcitions
 preds <- predict(metamean, newdata = newdata, transf = exp, digits = 2)
 
-pred.datMor <- subset(Sex_dataOR, Trait_Cat == "Sex Ratio")
-s <- interp(x = pred.datMor$T_scaled, y = pred.datMor$waterpotdiff_scaled, z = pred.datMor$pred)
-image.plot(s, xlab = "", ylab = "", las = 1, col = viridis(option = "magma", 50), main = "Morphological traits", cex.main = 2, cex.axis = 1.5, axis.args = list(cex.axis = 1.5))
+s <- interp(x = Sex_dataOR$T_scaled, y = Sex_dataOR$waterpotdiff_scaled, z = Sex_dataOR$pred)
+image.plot(s, xlab = "", ylab = "", las = 1, col = viridis(option = "magma", 50), main = "Sex Ratio", cex.main = 2, cex.axis = 1.5, axis.args = list(cex.axis = 1.5))
 contour(s, add = TRUE, labcex = labcex)
 points(y = tincNoInc$T_scaled[tincNoInc$Trait_Cat == "Sex Ratio"], x = tincNoInc$waterpotdiff_scaled[tincNoInc$Trait_Cat == "Sex Ratio"], pch = 16)
 
 # Then you use this griant dataframe with x (temperature), y (kPa diff) and z (maybe effect size?) values to make a contour plot
 
-###############################Cam's Attempt.###############################################################
+###############################dataframe code ref###########################################################
 #Will be based off sex ratio; moderators being Temperature vs. kPa sig interaction.
 newdata <- data.frame(temp_diff = rep(seq(15, 36, by = 1), each = 12), moist_diff = seq(100, 320, by = 20))
 #Mean Centring, taken from survival_model.R

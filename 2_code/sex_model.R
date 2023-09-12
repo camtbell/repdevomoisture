@@ -131,10 +131,16 @@ predict(metamean, transf = exp, digits = 2)
 M <- coef(metamean)
 M
 
-## Calculate the prediction intervals for the MLMA
+####6.5 Contour Example Code
+# Create a dataframe used for predcitions. Note that these MUST be names exactly the same as the data and be in the sam units as the data used to fit the model. So if you centred then they must be centered also. 
+newdata <- data.frame(T_scaled = rep(seq(15, 36, by = 1), each = 12), waterpotdiff_scaled = seq(100, 320, by = 20))
+
+# Then make predcitions
+preds <- predict(metamean, newdata = newdata, transf = exp, digits = 2)
+
+# Calculate the prediction intervals for the MLMA
 predictionsMLMR <- predict(metamean)
 print(predictionsMLMR)
-
 
 #### 7. Publication bias ####
 # Calculating weighted average (or precision)
