@@ -1,6 +1,6 @@
 # 1. Clear R workspace and load data
 	rm(list=ls())
-	pacman::p_load(interp, metaAidR, metafor, cowplot, hrbrthemes, corrplot, ggpubr, ggplot2, MCMCglmm, ape, phytools, stats, rotl, readr, MuMIn, clubSandwich, dplyr, viridis, patchwork, orchaRd, mgcv, interp, akima, fields)
+	pacman::p_load(interp, metaAidR, metafor, cowplot, hrbrthemes, corrplot, ggpubr, ggplot2, MCMCglmm, ape, phytools, stats, rotl, readr, MuMIn, clubSandwich, dplyr, viridis, patchwork, orchaRd, mgcv, interp, akima, fields, MASS)
 
 	Sex_dataOR <- read_csv("3_trait data/sex_data.csv")
 
@@ -47,7 +47,7 @@ newdata <- as.matrix(data.frame(T_scaled = seq(min(Sex_dataOR$T_scaled), max(Sex
 					  waterpotdiff_scaled = rep(seq(min(Sex_dataOR$waterpotdiff_scaled), max(Sex_dataOR$waterpotdiff_scaled), length = 100), each = 100))  %>% mutate(`T_scaled:waterpotdiff_scaled` = T_scaled*waterpotdiff_scaled))
 
 # Then make predcitions
-preds <- data.frame(predict(final.model, newmods = newdata, transf = exp, digits = 2, addx=TRUE))
+preds <- data.frame(predict(final.model, newmods = newdata, digits = 2, addx=TRUE))
 
 
 ## First method
@@ -61,19 +61,14 @@ filled.contour(x = fld$x,
                xlab = "Temperature (centered)",
                ylab = "Moisture Difference (Centered)",
                main = "Sex Ratio",
-               key.title = title(main = "Odds Ratio", cex.main = 0.9), cex.axis = 2)
+               key.title = title(main = "log Odds Ratio", cex.main = 0.9), cex.axis = 2)
 
 # Second method
 s <- interp(x = preds$X.T_scaled, y = preds$X.waterpotdiff_scaled, z = preds$pred)
 image.plot(s, xlab = "Temperature (centered)", ylab = "Moisture Difference (Centered)", las = 1, col = viridis(option = "magma", 50), main = "Sex Ratio", cex.main = 2, cex.axis = 1, axis.args = list(cex.axis = 1.5), cex.lab = 1.8)
 contour(s, add = TRUE, col = "white")
-points(y = Sex_dataOR$T_scaled, x = Sex_dataOR$waterpotdiff_scaled, pch = 16, col = "white")
+points(y = Sex_dataOR$T_scaled, x = Sex_dataOR$waterpotdiff_scaled)
 
-
-###############################dataframe code ref###########################################################
-#Will be based off sex ratio; moderators being Temperature vs. kPa sig interaction.
-newdata <- data.frame(temp_diff = rep(seq(15, 36, by = 1), each = 12), moist_diff = seq(100, 320, by = 20))
-#Mean Centring, taken from survival_model.R
 ############################################################################################################
 
 # Figure 6 - Model predictions - traits - raw
