@@ -1,25 +1,74 @@
-# Clear R workspace
-rm(list=ls())
-pacman::p_load(interp, metaAidR, metafor, cowplot, hrbrthemes, corrplot, ggpubr, ggplot2, MCMCglmm, ape, phytools, stats, rotl, readr, MuMIn, clubSandwich, dplyr, viridis, patchwork, orchaRd)
+# 1. Clear R workspace and load data
+	rm(list=ls())
+	pacman::p_load(interp, metaAidR, metafor, cowplot, hrbrthemes, corrplot, ggpubr, ggplot2, MCMCglmm, ape, phytools, stats, rotl, readr, MuMIn, clubSandwich, dplyr, viridis, patchwork, orchaRd, mgcv, interp, akima, fields)
 
-Sex_dataOR <- read_csv("3_trait data/sex_data.csv")
+	Sex_dataOR <- read_csv("3_trait data/sex_data.csv")
 
-Sex_dataOR <- escalc(measure="OR", ai=male.2, bi=female.2, ci =male, di=female , data=Sex_dataOR)
+	Sex_dataOR <- escalc(measure="OR", ai=male.2, bi=female.2, ci =male, di=female , data=Sex_dataOR)
 
-Sex_dataOR$T_scaled <- (Sex_dataOR$T - 25) 
-Sex_dataOR$waterpotdiff_scaled <- (Sex_dataOR$waterpot_diff - 320)
+	Sex_dataOR$T_scaled <- (Sex_dataOR$T - 25) 
+	Sex_dataOR$waterpotdiff_scaled <- (Sex_dataOR$waterpot_diff - 320)
+
+#### 2. Create covariance matrix with RVE ####
+	Vmat = impute_covariance_matrix(Sex_dataOR$vi, cluster = Sex_dataOR$paper_no, r=0.6)
+
+#### 3. Generating the phylogenetic tree and matrix ####
+	# Load the species list data 
+	speciesList <- read_csv("4_species data/sex_species.csv")
+
+	## Phylogeny
+	## Access taxon relationships from Open Tree of Life; Needed for phylogenetic control
+	Sex_dataOR$animal = Sex_dataOR$Genus_species
+	Sex_dataOR$animal <- as.factor(Sex_dataOR$animal)
+
+	# Match species in dataset
+	tree2 = tnrs_match_names(as.character(unique(speciesList$Species)), context = "Animals")
+
+	# Create a tree based on itt id's found on the open tree of life
+	tl2 <- tol_induced_subtree(ott_ids=na.omit(tree2$ott_id)) 
+
+	# Remove ott labels on end to make sure to matches species in dataset
+	tl2$tip.label = strip_ott_ids(tl2$tip.label, remove_underscores=FALSE)
+
+	# Getting a phylogenetic correlation matrix from the tree
+	tl2_brlen <- compute.brlen(tl2, method = "Grafen", power = 0.5) 
+
+	# Generate the phylogenetic matrix
+	tl2_brlen$node.label <- NULL
+	R_phylo <- vcv(tl2_brlen, corr = TRUE)
+
+## 4. Final model based on AICc selection top model - see .R file for more details. We'll drop order through so predcitions can be marginalised over order
+final.model <-rma.mv(yi = yi, V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row_count), R = list(animal=R_phylo), mod = ~ T_scaled + waterpotdiff_scaled:T_scaled + waterpotdiff_scaled, data =Sex_dataOR, method = 'REML')
+final.modelb <- robust(final.model, cluster = Sex_dataOR$paper_no)
+summary(final.modelb)
+
 # Create a dataframe used for predcitions. Note that these MUST be names exactly the same as the data and be in the sam units as the data used to fit the model. So if you centred then they must be centered also. 
-newdata <- data.frame(T_scaled = rep(seq(15, 36, by = 1), each = 12), waterpotdiff_scaled = seq(100, 320, by = 20))
+newdata <- as.matrix(data.frame(T_scaled = seq(min(Sex_dataOR$T_scaled), max(Sex_dataOR$T_scaled), length.out = 100), 
+					  waterpotdiff_scaled = rep(seq(min(Sex_dataOR$waterpotdiff_scaled), max(Sex_dataOR$waterpotdiff_scaled), length = 100), each = 100))  %>% mutate(`T_scaled:waterpotdiff_scaled` = T_scaled*waterpotdiff_scaled))
 
 # Then make predcitions
-preds <- predict(metamean, newdata = newdata, transf = exp, digits = 2)
+preds <- data.frame(predict(final.model, newmods = newdata, transf = exp, digits = 2, addx=TRUE))
 
-s <- interp(x = Sex_dataOR$T_scaled, y = Sex_dataOR$waterpotdiff_scaled, z = Sex_dataOR$pred)
-image.plot(s, xlab = "", ylab = "", las = 1, col = viridis(option = "magma", 50), main = "Sex Ratio", cex.main = 2, cex.axis = 1.5, axis.args = list(cex.axis = 1.5))
-contour(s, add = TRUE, labcex = labcex)
-points(y = tincNoInc$T_scaled[tincNoInc$Trait_Cat == "Sex Ratio"], x = tincNoInc$waterpotdiff_scaled[tincNoInc$Trait_Cat == "Sex Ratio"], pch = 16)
 
-# Then you use this griant dataframe with x (temperature), y (kPa diff) and z (maybe effect size?) values to make a contour plot
+## First method
+fld <- with(preds, interp(x = X.T_scaled, y = X.waterpotdiff_scaled, z = preds$pred))
+
+filled.contour(x = fld$x,
+               y = fld$y,
+               z = fld$z,
+               color.palette =
+                   colorRampPalette(c("white", "blue")),
+               xlab = "Temperature (centered)",
+               ylab = "Moisture Difference (Centered)",
+               main = "Sex Ratio",
+               key.title = title(main = "Odds Ratio", cex.main = 0.9), cex.axis = 2)
+
+# Second method
+s <- interp(x = preds$X.T_scaled, y = preds$X.waterpotdiff_scaled, z = preds$pred)
+image.plot(s, xlab = "Temperature (centered)", ylab = "Moisture Difference (Centered)", las = 1, col = viridis(option = "magma", 50), main = "Sex Ratio", cex.main = 2, cex.axis = 1, axis.args = list(cex.axis = 1.5), cex.lab = 1.8)
+contour(s, add = TRUE, col = "white")
+points(y = Sex_dataOR$T_scaled, x = Sex_dataOR$waterpotdiff_scaled, pch = 16, col = "white")
+
 
 ###############################dataframe code ref###########################################################
 #Will be based off sex ratio; moderators being Temperature vs. kPa sig interaction.
