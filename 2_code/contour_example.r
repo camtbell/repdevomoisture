@@ -68,7 +68,7 @@ s <- interp(x = preds$X.T_scaled, y = preds$X.waterpotdiff_scaled, z = preds$pre
 image.plot(s, xlab = "Temperature (centered)", ylab = "Moisture Difference (Centered)", las = 1, col = viridis(option = "magma", 50), main = "Sex Ratio", cex.main = 2, cex.axis = 1, axis.args = list(cex.axis = 1.5), cex.lab = 1.8)
 contour(s, add = TRUE, col = "white")
 points(y = Sex_dataOR$T_scaled, x = Sex_dataOR$waterpotdiff_scaled)
-
+#I believe 'points' ^^^ is whats not working for my data, just not adding the dots, only showing trend
 ############################################################################################################
 
 # Figure 6 - Model predictions - traits - raw
