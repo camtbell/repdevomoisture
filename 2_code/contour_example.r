@@ -40,38 +40,38 @@
 	R_phylo <- vcv(tl2_brlen, corr = TRUE)
 
 ## 4. Final model based on AICc selection top model - see .R file for more details. We'll drop order through so predictions can be marginalized over order
-final.model <-rma.mv(yi = yi, V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row_count), R = list(animal=R_phylo), mod = ~ T_scaled + waterpotdiff_scaled:T_scaled + waterpotdiff_scaled, data =Sex_dataOR, method = 'REML')
-final.modelb <- robust(final.model, cluster = Sex_dataOR$paper_no)
-summary(final.modelb)
+	final.model <-rma.mv(yi = yi, V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row_count), R = list(animal=R_phylo), mod = ~ T_scaled + waterpotdiff_scaled:T_scaled + waterpotdiff_scaled, data =Sex_dataOR, method = 'REML')
+	final.modelb <- robust(final.model, cluster = Sex_dataOR$paper_no)
+	summary(final.modelb)
 
 ## 5. Create a dataframe used for predictions. Note that these MUST be names exactly the same as the data and be in the same units as the data used to fit the model. So if you centered then they must be centered also. 
 #Removing Row 35, had a wildly high waterpot difference value (4675)
-Sex_dataOR <- Sex_dataOR[-35,]
-newdata <- as.matrix(data.frame(T_scaled = seq(min(Sex_dataOR$T_scaled), max(Sex_dataOR$T_scaled), length.out = 100), 
-					  waterpotdiff_scaled = rep(seq(min(Sex_dataOR$waterpotdiff_scaled), max(Sex_dataOR$waterpotdiff_scaled), length = 100), each = 100))  %>% mutate(`T_scaled:waterpotdiff_scaled` = T_scaled*waterpotdiff_scaled))
+	Sex_dataOR <- Sex_dataOR[-35,]
+	newdata <- as.matrix(data.frame(T_scaled = seq(min(Sex_dataOR$T_scaled), max(Sex_dataOR$T_scaled), length.out = 100), 
+						waterpotdiff_scaled = rep(seq(min(Sex_dataOR$waterpotdiff_scaled), max(Sex_dataOR$waterpotdiff_scaled), length = 100), each = 100))  %>% mutate(`T_scaled:waterpotdiff_scaled` = T_scaled*waterpotdiff_scaled))
 # Then make predictions
-#So i can set limits on this line? Might be an issue with final.model. check preds data...
-preds <- data.frame(predict(final.model, newmods = newdata, digits = 2, addx=TRUE))
+	preds <- data.frame(predict(final.model, newmods = newdata, digits = 2, addx=TRUE))
 
-
+## 6. Create contour plot
 ## First method
-fld <- with(preds, interp(x = X.T_scaled, y = X.waterpotdiff_scaled, z = preds$pred))
+	fld <- with(preds, interp(x = X.T_scaled, y = X.waterpotdiff_scaled, z = preds$pred))
 
-filled.contour(x = fld$x,
-               y = fld$y,
-               z = fld$z,
-               color.palette =
-                   colorRampPalette(c("white", "blue")),
-               xlab = "Temperature (centered)",
-               ylab = "Moisture Difference (Centered)",
-               main = "Sex Ratio",
-               key.title = title(main = "log Odds Ratio", cex.main = 0.9), cex.axis = 2)
+	filled.contour(x = fld$x,
+				y = fld$y,
+				z = fld$z,
+				color.palette =
+					colorRampPalette(c("white", "blue")),
+				xlab = "Temperature (centered)",
+				ylab = "Moisture Difference (Centered)",
+				main = "Sex Ratio",
+				key.title = title(main = "log Odds Ratio", cex.main = 0.9), cex.axis = 2)
+	points(y = Sex_dataOR$T_scaled, x = Sex_dataOR$waterpotdiff_scaled)
 
 # Second method
-s <- interp(x = preds$X.T_scaled, y = preds$X.waterpotdiff_scaled, z = preds$pred)
-image.plot(s, xlab = "Temperature (centered)", ylab = "Moisture Difference (Centered)", las = 1, col = viridis(option = "magma", 50), main = "Sex Ratio", cex.main = 2, cex.axis = 1, axis.args = list(cex.axis = 1.5), cex.lab = 1.8)
-contour(s, add = TRUE, col = "white")
-points(y = Sex_dataOR$T_scaled, x = Sex_dataOR$waterpotdiff_scaled)
+	s <- interp(x = preds$X.T_scaled, y = preds$X.waterpotdiff_scaled, z = preds$pred)
+	image.plot(s, xlab = "Temperature (centered)", ylab = "Moisture Difference (Centered)", las = 1, col = viridis(option = "magma", 50), main = "Sex Ratio", cex.main = 2, cex.axis = 1, axis.args = list(cex.axis = 1.5), cex.lab = 1.8)
+	contour(s, add = TRUE, col = "white")
+	
 #############################################################################################################################
 
 # Figure 6 - Model predictions - traits - raw
