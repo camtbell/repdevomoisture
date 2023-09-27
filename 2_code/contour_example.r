@@ -69,7 +69,7 @@
 
 # Second method
 	s <- interp(x = preds$X.T_scaled, y = preds$X.waterpotdiff_scaled, z = preds$pred)
-	image.plot(s, xlab = "Temperature (Centered)", ylab = "Moisture Difference (Centered)", las = 1, col = viridis(option = "magma", 50), main = "Sex Ratio", cex.main = 1.5, cex.axis = 1, axis.args = list(cex.axis = 1), cex.lab = 1.2)
+	image.plot(s, xlab = "Temperature", ylab = "Moisture Difference", las = 1, col = viridis(option = "magma", 50), legend.lab = "Sex Ratio", cex.main = 1.5, cex.axis = 1, axis.args = list(cex.axis = 1), cex.lab = 1.2)
 	contour(s, add = TRUE, col = "white")
 	
 #############################################################################################################################
