@@ -6,7 +6,7 @@ rm(list=ls())
 # Loading R Packages
 pacman::p_load(metaAidR, metafor, cowplot, hrbrthemes, corrplot, ggpubr, ggplot2, MCMCglmm, ape, phytools, stats, rotl, readr, MuMIn, clubSandwich, dplyr, viridis, patchwork, orchaRd)
 
-# Load Length Dataset
+# Load Survival Dataset
 Sur_dataOR <- read_csv("3_trait data/survival_data.csv")
 
 # Check that continuous variables are not categorical
@@ -46,12 +46,12 @@ Vmat = impute_covariance_matrix(Sur_dataOR$vi, cluster = Sur_dataOR$paper_no, r=
 # Fit the meta-analysis that accounts for sampling covariance
 model_test <- rma.mv(yi ~ 1, V=Vmat , random= ~ 1 | row_count, data=Sur_dataOR)
 summary(model_test)
-sigma2 <- 0.7572
+sigma2 <- 0.7745
 
 # Calculate I2
 i2 <- orchaRd::i2_ml(model_test, boot = 1000, data = Sur_dataOR) 
 i2
-# I2_Total; I2 = 50.463, 95% CI = 37.079, 64.572
+# I2_Total; I2 = 50.671, 95% CI = 36.551, 64.149
 
 
 #### 4. Generating the phylogenetic tree and matrix ####
@@ -125,7 +125,7 @@ summary(metameanb)
 
 #Conversion For % Change Values
 predict(metamean, transf = exp, digits = 2)
-0.97
+0.94
 
 ## MEAN MLMA 
 M <- coef(metamean)

@@ -50,12 +50,12 @@ Vmat = impute_covariance_matrix(M_dataRR$vi, cluster = M_dataRR$paper_no, r= 0.6
 # Fit the meta-analysis that accounts for sampling covariance
 model_test <- rma.mv(yi ~ 1, V=Vmat , random= ~ 1 | row_count, data=M_dataRR)
 summary(model_test)
-sigma2 <- 0.0129 
+sigma2 <- 0.0128 
 
 # Calculate I2. You want I2 total. You can also bootstrap.
 i2 <- orchaRd::i2_ml(model_test, boot = 1000, data = M_dataRR)
 i2
-# I2_Total; I2 = 91.529, 95% CI = 89.227, 93.413
+# I2_Total; I2 = 93.888, 95% CI = 92.264, 95.331
 
 
 #### 4. Generating the phylogenetic tree and matrix ####
