@@ -1,4 +1,4 @@
-This is the information file (README) for the data and code used in the paper "A meta-analysis of the effects of moisture during development on oviparous reptile phenotype" that is provided in this OSF repository. This paper was published in TBD (DOI). The following explains each file organized into a series of folders:
+This is the information file (README) for the data and code used in the paper "The effect of moisture during development on phenotypes of egg-laying reptiles: A systematic review and meta-analysis" that is provided in this OSF repository. This paper was published in TBD (DOI). The following explains each file organized into a series of folders:
 
 1_Overall Database
 -------------------
@@ -17,7 +17,14 @@ This folder contains all our code that we used to run the MLMA and meta-regressi
 
 - sex_model.R contains the code for our models of the sex ratio trait and refers to the sex_data.csv (in the '3_trait data' folder) and sex_species.csv (in the '4_species data' folder) datasets
 
-- survival_model.R contains the code for our models of the hatching success (survival) trait and refers to the survival_data.csv (in the '3_trait data' folder) and survival_species.csv (in the '4_species data' folder) datasets
+- survival_model.R contains the code for our models of the hatching success (survival) trait and refers to the survival_data.csv (in the '3_trait data' folder) and survival_species.csv (in the '4_species data' folder) datasets'
+
+There are also a series of script files for our figures in R. These are: 
+- figure_modelOR.r
+- figure modelRR.r
+- contour_example.r
+
+There is also a file called "conversion_example.r" which we made use of for our interpretation of the moderators on effect sizes in our study.
 
 
 3_Trait Data 
