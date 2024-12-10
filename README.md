@@ -20,7 +20,7 @@ This folder contains all our code that we used to run the MLMA and meta-regressi
 - survival_model.R contains the code for our models of the hatching success (survival) trait and refers to the survival_data.csv (in the '3_trait data' folder) and survival_species.csv (in the '4_species data' folder) datasets'
 
 There are also a series of script files for our figures in R. These are: 
-- figure 2_modelOR.r that contains the code for Figure 2
+- figures 2 and 4_modelOR.r that contains the code for Figures 2 and 4
 - figure 5_modelRR.r that contains the code for Figure 5
 - figure 4_contour plot that contains the code for Figure 4
 
