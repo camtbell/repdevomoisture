@@ -19,28 +19,10 @@ ID <- read.csv('3_trait data/incubation_data.csv')
 MassRR <- escalc(measure = "ROM", n1i = N.2, n2i =N, m1i =mean.2, m2i =mean, sd1i =sd.2, sd2i =sd, data=mass)
 LengthRR<-escalc(measure = "ROM", n1i = N.2, n2i =N, m1i =mean.2, m2i =mean, sd1i =sd.2, sd2i =sd, data = length)
 IDRR<-escalc(measure = "ROM", n1i = N.2, n2i =N, m1i =mean.2, m2i =mean, sd1i =sd.2, sd2i =sd, data = ID)
+
 ###Mass Plots-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Mass plots (Mass1 and Mass2)
 Mass1<-MassRR %>%
-  ggplot(aes(x=T, y=yi, size=N, color=order)) +
-  labs(x="Temperature (°C)", y=" Effect Size (lnRR)", title= "Mass") +
-  labs(shape="Sample Size", color="Order") +
-  theme_bw() +
-  theme(panel.grid.minor=element_blank(),
-        panel.grid.major=element_blank()) +
-  geom_hline(aes(fill=yi),yintercept =0, linetype=2)+
-  geom_point(alpha=0.5) +
-  scale_size(range = c(.1, 10), name="Sample size") +
-  scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
-  scale_color_brewer(palette = "Dark2", direction = -1) +
-  theme(legend.text = element_text(size = 12)) +
-  theme(axis.text = element_text(size=10)) +
-  theme(axis.title = element_text(size = 12)) +
-  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
-  theme(legend.title = element_text(size = 14)) +
-  theme(legend.position = "none") 
-
-Mass2<-MassRR %>%
   filter(waterpot_diff < 4000) %>%
   ggplot(aes(x=waterpot_diff, y=yi, size=N, color=order)) +
   labs(x="Moisture Difference (kPa)", y=" Effect size (lnRR)", title= "") +
@@ -61,10 +43,52 @@ Mass2<-MassRR %>%
   theme(legend.position = "none") +
   geom_smooth(method=lm, lwd=0.5, colour="black")
 
+Mass2<-MassRR %>%
+  ggplot(aes(x=T, y=yi, size=N, color=order)) +
+  labs(x="Temperature (°C)", y=" Effect Size (lnRR)", title= "Mass") +
+  labs(shape="Sample Size", color="Order") +
+  theme_bw() +
+  theme(panel.grid.minor=element_blank(),
+        panel.grid.major=element_blank()) +
+  geom_hline(aes(fill=yi),yintercept =0, linetype=2)+
+  geom_point(alpha=0.5) +
+  scale_size(range = c(.1, 10), name="Sample size") +
+  scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
+  scale_color_brewer(palette = "Dark2", direction = -1) +
+  theme(legend.text = element_text(size = 12)) +
+  theme(axis.text = element_text(size=10)) +
+  theme(axis.title = element_text(size = 12)) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  theme(legend.title = element_text(size = 14)) +
+  theme(legend.position = "none") 
+
+
+
 
 ###Length Plots-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Length Plots (Length1 and Length2)
 Length1 <-LengthRR %>%
+  filter(waterpot_diff < 4000) %>%
+  ggplot(aes(x=waterpot_diff, y=yi, size=N, color=order)) +
+  labs(x="Moisture Difference (kPa)", y=" Effect size (lnRR)", title= "") +
+  labs(shape="Sample Size", color="Order") +
+  theme_bw() +
+  theme(panel.grid.minor=element_blank(),
+        panel.grid.major=element_blank()) +
+  geom_hline(aes(fill=yi),yintercept =0, linetype=2)+
+  geom_point(alpha=0.5) +
+  scale_size(range = c(.1, 10), name="Sample size") +
+  scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
+  scale_color_brewer(palette = "Dark2", direction = -1) + 
+  theme(legend.text = element_text(size = 12)) +
+  theme(axis.text = element_text(size=10)) +
+  theme(axis.title = element_text(size = 12)) +
+  theme(plot.title = element_text(size = 22)) +
+  theme(legend.title = element_text(size = 14)) +
+  theme(legend.position = "none")
+
+
+Length2 <-LengthRR %>%
   ggplot(aes(x=T, y=yi, size=N, color=order)) +
   labs(x="Temperature (°C)", y=" Effect size (lnRR)", title= "Length") +
   labs(shape="Sample Size", color="Order") +
@@ -83,7 +107,11 @@ Length1 <-LengthRR %>%
   theme(legend.title = element_text(size = 14)) +
   theme(legend.position = "none") 
 
-Length2 <-LengthRR %>%
+
+
+###Incubation Duration Plots-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Incubation Duration Plots (ID1 and ID2)
+ID1 <-IDRR %>%
   filter(waterpot_diff < 4000) %>%
   ggplot(aes(x=waterpot_diff, y=yi, size=N, color=order)) +
   labs(x="Moisture Difference (kPa)", y=" Effect size (lnRR)", title= "") +
@@ -103,9 +131,7 @@ Length2 <-LengthRR %>%
   theme(legend.title = element_text(size = 14)) +
   theme(legend.position = "none")
 
-###Incubation Duration Plots-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#Incubation Duration Plots (ID1 and ID2)
-ID1 <-IDRR %>%
+ID2 <-IDRR %>%
   ggplot(aes(x=T, y=yi, size=N, color=order)) +
   labs(x="Temperature (°C)", y=" Effect size (lnRR)", title= "Incubation Duration") +
   labs(shape="Sample Size", color="Order") +
@@ -124,25 +150,6 @@ ID1 <-IDRR %>%
   theme(legend.title = element_text(size = 14)) +
   theme(legend.position = "none") 
 
-ID2 <-IDRR %>%
-  filter(waterpot_diff < 4000) %>%
-  ggplot(aes(x=waterpot_diff, y=yi, size=N, color=order)) +
-  labs(x="Moisture Difference (kPa)", y=" Effect size (lnRR)", title= "") +
-  labs(shape="Sample Size", color="Order") +
-  theme_bw() +
-  theme(panel.grid.minor=element_blank(),
-        panel.grid.major=element_blank()) +
-  geom_hline(aes(fill=yi),yintercept =0, linetype=2)+
-  geom_point(alpha=0.5) +
-  scale_size(range = c(.1, 10), name="Sample size") +
-  scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
-  scale_color_brewer(palette = "Dark2", direction = -1) + 
-  theme(legend.text = element_text(size = 12)) +
-  theme(axis.text = element_text(size=10)) +
-  theme(axis.title = element_text(size = 12)) +
-  theme(plot.title = element_text(size = 22)) +
-  theme(legend.title = element_text(size = 14)) +
-  theme(legend.position = "none")
 
 ###Patchwork Plot Code--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
