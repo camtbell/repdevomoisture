@@ -23,7 +23,7 @@ IDRR<-escalc(measure = "ROM", n1i = N.2, n2i =N, m1i =mean.2, m2i =mean, sd1i =s
 #Mass plots (Mass1 and Mass2)
 Mass1<-MassRR %>%
   ggplot(aes(x=T, y=yi, size=N, color=order)) +
-  labs(x="Temperature (°C)", y=" Effect Size (lnOR)", title= "Mass") +
+  labs(x="Temperature (°C)", y=" Effect Size (lnRR)", title= "Mass") +
   labs(shape="Sample Size", color="Order") +
   theme_bw() +
   theme(panel.grid.minor=element_blank(),
@@ -43,7 +43,7 @@ Mass1<-MassRR %>%
 Mass2<-MassRR %>%
   filter(waterpot_diff < 4000) %>%
   ggplot(aes(x=waterpot_diff, y=yi, size=N, color=order)) +
-  labs(x="Moisture Difference (kPa)", y=" Effect size (lnOR)", title= "") +
+  labs(x="Moisture Difference (kPa)", y=" Effect size (lnRR)", title= "") +
   labs(shape="Sample Size", color="Order") +
   theme_bw() +
   theme(panel.grid.minor=element_blank(),
