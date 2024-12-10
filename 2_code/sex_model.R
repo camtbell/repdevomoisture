@@ -101,6 +101,8 @@ Sex_dataOR$egg_z <-scale(Sex_dataOR$egg_mass_g) #z-scaled
 Sex_dataOR$T_scaled <- (Sex_dataOR$T - 25) # what this will do is make the value of 0 mean that the intercept is 25 Celsius
 Sex_dataOR$waterpotdiff_scaled <- (Sex_dataOR$waterpot_diff - 320) # what this will do is make the moisture difference of 0 mean a value of 320 KPA
 
+saveRDS(Sex_dataOR, file = "3_trait data/sexratio_mlma_data.rds")
+
 # Full model including all random effects and moderators 
 full.model_z <- rma.mv(yi = yi, V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row_count), R = list(animal=R_phylo), mod = ~ order + T_scaled + waterpotdiff_scaled:T_scaled + waterpotdiff_scaled + egg_z, data =Sex_dataOR, method = 'ML')
 summary(full.model_z)

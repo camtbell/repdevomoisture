@@ -109,3 +109,26 @@ patchwork <- S1 + Sex1 + S2 + Sex2 + theme(legend.position = "right") + plot_lay
   theme(plot.tag = element_text(size = 17))
 patchwork
 
+
+
+##Orchard Plot for Order Difference in Sex Ratio-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Load Data from RDS file
+
+sex_ratio_data_mlma <- readRDS("3_trait data/sexratio_mlma_data.rds")
+
+# Run metafor model as in "sex_model.R"
+
+full.model_z <- rma.mv(yi = yi, V = Vmat, random = list(~1|paper_no, ~1|animal, ~1|row_count), R = list(animal=R_phylo), mod = ~ order + T_scaled + waterpotdiff_scaled:T_scaled + waterpotdiff_scaled + egg_z, data = sex_ratio_data_mlma, method = 'ML')
+#summary(full.model_z)
+robustmod <- robust(full.model_z, cluster = Sex_dataOR$paper_no)
+summary(robustmod)
+
+# make the plot
+
+orchaRd::orchard_plot(robustmod, mod = "order", group = "paper_no", xlab = "lnOR (Sex Ratio)",
+                            angle = 45, transfm = "none", g = FALSE, #N = "N", 
+                      ) +
+          scale_color_brewer(palette = "Dark2", direction = -1) +
+          scale_fill_brewer(palette = "Dark2", direction = -1)
+
