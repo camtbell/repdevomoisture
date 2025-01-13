@@ -1,4 +1,4 @@
-This is the information file (README) for the data and code used in the paper "The effect of moisture during development on phenotypes of egg-laying reptiles: A systematic review and meta-analysis" that is provided in this OSF repository. This paper was published in TBD (DOI). The following explains each file organized into a series of folders:
+This is the information file (README) for the data and code used in the paper "The effect of moisture during development on phenotypes of egg-laying reptiles: A systematic review and meta-analysis" that is provided in this OSF repository. This paper was published in The Journal of Experimental Biology (https://doi.org/10.1242/jeb.249960). The following explains each file organized into a series of folders:
 
 1_Overall Database
 -------------------
