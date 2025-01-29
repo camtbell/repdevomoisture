@@ -49,7 +49,7 @@ summary(model_test)
 sigma2 <- 0.7745
 
 # Calculate I2
-i2 <- orchaRd::i2_ml(model_test, boot = 1000, data = Sur_dataOR) 
+i2 <- orchaRd::i2_ml(model_test, boot = 1000)
 i2
 # I2_Total; I2 = 50.671, 95% CI = 36.551, 64.149
 
@@ -125,7 +125,7 @@ summary(metameanb)
 
 #Conversion For % Change Values
 predict(metamean, transf = exp, digits = 2)
-0.94
+
 
 ## MEAN MLMA 
 M <- coef(metamean)

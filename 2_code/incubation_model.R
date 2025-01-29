@@ -52,7 +52,7 @@ summary(model_test)
 sigma2 <- 0.0010 
 
 # Calculate I2
-i2 <- orchaRd::i2_ml(model_test, boot = 1000, data = ID_dataRR) 
+i2 <- orchaRd::i2_ml(model_test, boot = 1000) 
 i2
 # I2_Total; I2 = 92.52, 95% CI = 89.827, 94.512
 
