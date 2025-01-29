@@ -53,7 +53,7 @@ summary(model_test)
 sigma2 <- 0.0128 
 
 # Calculate I2. You want I2 total. You can also bootstrap.
-i2 <- orchaRd::i2_ml(model_test, boot = 1000, data = M_dataRR)
+i2 <- orchaRd::i2_ml(model_test, boot = 1000) 
 i2
 # I2_Total; I2 = 93.888, 95% CI = 92.264, 95.331
 
